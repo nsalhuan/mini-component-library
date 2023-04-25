@@ -60,10 +60,38 @@ const Progress = styled.progress`
   }
 `;
 
+const Wrapper = styled.div`
+  margin: 0;
+  padding: 0;
+
+  background-color: ${COLORS.transparentGray15};
+  box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
+  overflow: hidden;
+
+  height: var(--height);
+  border-radius: var(--borderRadius);
+  padding: var(--padding);
+`;
+
+const ProgressStatus = styled.div`
+  margin: 0;
+  padding: 0;
+
+  background-color: ${COLORS.primary};
+  height: 100%;
+
+  width: ${(p) => p.value + '%'};
+  border-radius: var(--innerBorderRadius) 0 0 var(--innerBorderRadius);
+`;
+
 const ProgressBar = ({ value, size, label }) => {
   if (!value) {
     value = 0;
   }
+  if (value > 100) {
+    value = 100;
+  }
+
   const styles = SIZES[size];
 
   console.log(styles);
@@ -72,6 +100,10 @@ const ProgressBar = ({ value, size, label }) => {
     <>
       <VisuallyHidden>{label}</VisuallyHidden>
       <Progress max="100" value={value} style={styles} />
+      <div style={{ height: 20 }}></div>
+      <Wrapper style={styles}>
+        <ProgressStatus value={value} style={styles}></ProgressStatus>
+      </Wrapper>
     </>
   );
 };
